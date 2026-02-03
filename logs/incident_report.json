@@ -1,0 +1,48 @@
+{
+  "incidents": [
+    {
+      "id": "INC-20260203061056-0001",
+      "timestamp": "2026-02-03T06:10:56.093141Z",
+      "agent": "test-agent",
+      "type": "process_crash",
+      "severity": "critical",
+      "description": "Agent 'test-agent' process is not running",
+      "evidence": {
+        "process_check": {
+          "running": false,
+          "method": null,
+          "details": null
+        }
+      },
+      "suggested_actions": [
+        "Restart the agent process",
+        "Check system logs for crash reason",
+        "Verify sufficient system resources"
+      ],
+      "requires_human": false,
+      "status": "open"
+    },
+    {
+      "id": "INC-20260203061211-0001",
+      "timestamp": "2026-02-03T06:12:11.356920Z",
+      "agent": "broken-agent",
+      "type": "process_crash",
+      "severity": "critical",
+      "description": "Agent 'broken-agent' process is not running",
+      "evidence": {
+        "process_check": {
+          "running": false,
+          "method": null,
+          "details": null
+        }
+      },
+      "suggested_actions": [
+        "Restart the agent process",
+        "Check system logs for crash reason",
+        "Verify sufficient system resources"
+      ],
+      "requires_human": false,
+      "status": "open"
+    }
+  ]
+}

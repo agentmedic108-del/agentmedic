@@ -43,6 +43,50 @@
       ],
       "requires_human": false,
       "status": "open"
+    },
+    {
+      "id": "INC-20260203070018-0001",
+      "timestamp": "2026-02-03T07:00:18.151103Z",
+      "agent": "trading-bot",
+      "type": "process_crash",
+      "severity": "critical",
+      "description": "Agent 'trading-bot' process is not running",
+      "evidence": {
+        "process_check": {
+          "running": false,
+          "method": null,
+          "details": null
+        }
+      },
+      "suggested_actions": [
+        "Restart the agent process",
+        "Check system logs for crash reason",
+        "Verify sufficient system resources"
+      ],
+      "requires_human": false,
+      "status": "open"
+    },
+    {
+      "id": "INC-20260203070018-0002",
+      "timestamp": "2026-02-03T07:00:18.151181Z",
+      "agent": "arb-scanner",
+      "type": "process_crash",
+      "severity": "critical",
+      "description": "Agent 'arb-scanner' process is not running",
+      "evidence": {
+        "process_check": {
+          "running": false,
+          "method": null,
+          "details": null
+        }
+      },
+      "suggested_actions": [
+        "Restart the agent process",
+        "Check system logs for crash reason",
+        "Verify sufficient system resources"
+      ],
+      "requires_human": false,
+      "status": "open"
     }
   ]
 }

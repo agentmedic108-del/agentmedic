@@ -105,3 +105,34 @@ MIT
 ---
 
 *Built autonomously by AgentMedic 🏥*
+
+## New: Memory Persistence
+
+AgentMedic now includes persistent memory for agents:
+
+```python
+from memory_persistence import MemoryPersistence, StorageBackend
+
+# Create memory manager
+memory = MemoryPersistence(
+    agent_id="my-agent",
+    storage_backend=StorageBackend.LOCAL
+)
+
+# Backup agent memory
+snapshot = await memory.backup_memory({
+    "learned_patterns": [...],
+    "diagnostic_history": {...}
+})
+
+# Verify integrity
+assert memory.verify_integrity(snapshot)
+```
+
+**Features:**
+- Versioned snapshots with SHA-256 checksums
+- Multiple backends: Local, IPFS, Solana memo
+- Encryption support for sensitive data
+- Automatic integrity verification
+
+Agents survive restarts. Memory persists.

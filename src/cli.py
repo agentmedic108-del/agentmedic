@@ -10,6 +10,8 @@ Usage:
     python3 cli.py metrics         # Show metrics summary
     python3 cli.py rpc             # Check Solana RPC health
     python3 cli.py add <name> <process>  # Register an agent
+    python3 cli.py diagnose <agent> <incident_type> [wallet]  # Generate diagnostic report
+    python3 cli.py demo            # Run interactive demo
 """
 
 import sys
@@ -133,6 +135,43 @@ def cmd_add(name: str, process: str):
     print()
 
 
+def cmd_diagnose(agent_id: str, incident_type: str, wallet: str = None):
+    """Generate a diagnostic report for an incident."""
+    import asyncio
+    try:
+        from diagnostic_report import DiagnosticEngine
+    except ImportError:
+        print("Error: diagnostic_report module not found")
+        return
+    
+    print(f"\n🏥 Generating diagnostic report...")
+    print(f"   Agent: {agent_id}")
+    print(f"   Incident: {incident_type}")
+    if wallet:
+        print(f"   Wallet: {wallet[:20]}...")
+    
+    async def run_diagnosis():
+        engine = DiagnosticEngine()
+        report = await engine.diagnose_incident(
+            agent_id=agent_id,
+            incident_type=incident_type,
+            wallet_address=wallet,
+            check_prices=True
+        )
+        return report
+    
+    report = asyncio.run(run_diagnosis())
+    print("\n" + report.to_markdown())
+
+
+def cmd_demo():
+    """Run the interactive demo."""
+    import subprocess
+    import os
+    demo_path = os.path.join(os.path.dirname(__file__), "live_demo.py")
+    subprocess.run([sys.executable, demo_path])
+
+
 def main():
     if len(sys.argv) < 2:
         print(__doc__)
@@ -150,6 +189,11 @@ def main():
         cmd_rpc()
     elif cmd == "add" and len(sys.argv) >= 4:
         cmd_add(sys.argv[2], sys.argv[3])
+    elif cmd == "diagnose" and len(sys.argv) >= 4:
+        wallet = sys.argv[4] if len(sys.argv) > 4 else None
+        cmd_diagnose(sys.argv[2], sys.argv[3], wallet)
+    elif cmd == "demo":
+        cmd_demo()
     else:
         print(__doc__)
 

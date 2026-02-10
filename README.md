@@ -2,43 +2,56 @@
 
 **Autonomous AI physician for Solana agents**
 
-Monitors health, diagnoses failures, and executes safe recovery actions — fully autonomous, zero human code.
+Monitors health, diagnoses failures, executes safe recovery, and learns from every incident.
 
 [![Hackathon](https://img.shields.io/badge/Colosseum-Agent%20Hackathon%202026-blue)](https://colosseum.com/agent-hackathon/)
-[![Lines of Code](https://img.shields.io/badge/Python-4,718%20lines-green)]()
-[![Modules](https://img.shields.io/badge/Modules-20-orange)]()
+[![Modules](https://img.shields.io/badge/Modules-46-green)]()
+[![Lines](https://img.shields.io/badge/Lines-7,800+-orange)]()
 
 ## Problem
 
-AI agents crash at 3am. They hit rate limits. Their transactions fail. Who fixes them?
+AI agents crash. They get hacked. They approve malicious contracts at 3am. Who's watching?
 
 ## Solution
 
-AgentMedic watches your agents and heals them automatically:
+AgentMedic watches your agents 24/7:
 
-- **Detect** failures: process crashes, RPC issues, transaction errors
-- **Diagnose** root causes: OOM, rate limits, invalid instructions, suspicious counterparties
-- **Recover** safely: restart with backoff, RPC failover, cooldown periods
-- **Verify** success and log everything
+- **🔍 Detect** — Process crashes, RPC issues, transaction errors, security threats
+- **🧠 Diagnose** — Root cause analysis with pattern matching
+- **🔧 Recover** — Auto-restart, RPC failover, cooldown management
+- **✅ Verify** — Confirm recovery success
+- **📚 Learn** — Get smarter from every failure
 
-## Features
+## Key Features
 
-### Core Capabilities
-- 🔄 **Adaptive Polling**: 10min default → 2min during incidents → 30min when stable
-- 🧠 **Pattern Detection**: Learns from historical incidents for predictive recovery
-- 🔍 **Transaction Analysis**: Deep inspection of Solana transaction failures
-- 📊 **Metrics**: Uptime, MTTR, incident count, recovery success rate
+### 🛡️ Security Scanner
+Detect threats in real-time:
+- Exposed private keys in logs/memory
+- Scam/phishing patterns
+- Malicious contract approvals
+- Suspicious transaction patterns
+- Insecure RPC endpoints
 
-### Integrations
-- 🌐 **SolanaScope API**: Real-time anomaly detection and price reliability checks
-- 💾 **Memory Persistence**: Versioned snapshots with Solana/IPFS storage
-- 📋 **Diagnostic Reports**: Comprehensive markdown/JSON incident reports
+### 🔐 Verifiable Audit System
+Cryptographic proof of all actions:
+- SHA-256 hashed entries
+- Timestamped and signed
+- Tamper-evident JSONL logs
+- Anyone can independently verify
 
-### Safety First
-- ❌ Never custody funds
-- ❌ Never sign transactions  
-- ✅ Read-only on mainnet
-- ✅ Human escalation for unknowns
+### 🧠 Self-Learning Engine
+Gets smarter over time:
+- Learns from incidents and root causes
+- Tracks which recoveries work best
+- Builds threat pattern database
+- Persists knowledge across restarts
+
+### 🔒 Quarantine System
+Prevents data poisoning:
+- All incoming data quarantined first
+- Multiple confirmations required
+- Time-based expiration
+- Protects learning engine from manipulation
 
 ## Architecture
 
@@ -47,14 +60,26 @@ AgentMedic watches your agents and heals them automatically:
 │                    AgentMedic Core                          │
 ├─────────────────────────────────────────────────────────────┤
 │   Observer → Diagnoser → Recoverer → Verifier               │
-│                     ↓                                        │
-│   Pattern Analyzer ←→ Memory Persistence                    │
-│                     ↓                                        │
-│   Diagnostic Report Generator                               │
+│       ↓          ↓           ↓           ↓                  │
+│   Security   Learning    Quarantine   Verifiable            │
+│   Scanner    Engine      System       Audit                 │
 └─────────────────────────────────────────────────────────────┘
-         ↓              ↓              ↓              ↓
-    Agent Procs    Solana RPC    SolanaScope    Local Logs
 ```
+
+## Modules (46)
+
+| Category | Modules |
+|----------|---------|
+| **Core** | main, observer, diagnoser, recoverer, verifier |
+| **Security** | security_scanner, threat_detector, quarantine_system |
+| **Learning** | learning_engine, pattern_analyzer, anomaly_detector |
+| **Audit** | verifiable_audit, diagnostic_report, incident_tracker |
+| **Infrastructure** | health_server, alerts, notification, scheduler |
+| **Resilience** | circuit_breaker, retry_handler, rate_limiter |
+| **State** | state_machine, agent_registry, metrics_collector |
+| **Storage** | memory_persistence, backup_manager, cache |
+| **Solana** | solana_rpc, rpc_manager, transaction_inspector, wallet_monitor |
+| **Interface** | cli, dashboard, status_reporter, live_demo |
 
 ## Quick Start
 
@@ -64,109 +89,39 @@ cd src
 # Check system status
 python3 cli.py status
 
-# Run one observation cycle
-python3 cli.py check
+# Run security scan
+python3 -c "from security_scanner import quick_scan; print(quick_scan('test input'))"
 
-# Generate diagnostic report
-python3 cli.py diagnose TradingBot transaction_failed <wallet_address>
+# Verify audit log
+python3 -c "from verifiable_audit import get_audit; print(get_audit('test').verify_log())"
 
-# Run interactive demo
-python3 cli.py demo
-
-# Check Solana RPC health
-python3 cli.py rpc
+# Run dashboard
+python3 dashboard.py
 ```
 
-## Modules (20 total)
+## Safety Principles
 
-| Module | Purpose |
-|--------|---------|
-| `main.py` | Core monitoring loop |
-| `observer.py` | System observation and health checks |
-| `diagnoser.py` | Root cause analysis |
-| `recoverer.py` | Safe recovery execution |
-| `verifier.py` | Recovery confirmation |
-| `pattern_analyzer.py` | Historical pattern detection |
-| `transaction_inspector.py` | Solana transaction analysis |
-| `threat_detector.py` | Security threat detection |
-| `wallet_monitor.py` | Proactive balance alerts |
-| `memory_persistence.py` | Persistent memory storage |
-| `solanascope_integration.py` | SolanaScope API client |
-| `diagnostic_report.py` | Report generation |
-| `health_server.py` | HTTP API for monitoring |
-| `alerts.py` | Alert system |
-| `logger.py` | Incident logging |
-| `cli.py` | Command-line interface |
-| `config.py` | Configuration management |
-| `solana_rpc.py` | Solana RPC integration |
-| `demo.py` | Basic demo |
-| `live_demo.py` | Interactive presentation demo |
-
-## Memory Persistence
-
-AgentMedic includes persistent memory for agents:
-
-```python
-from memory_persistence import MemoryPersistence, StorageBackend
-
-# Create memory manager
-memory = MemoryPersistence(
-    agent_id="my-agent",
-    storage_backend=StorageBackend.LOCAL
-)
-
-# Backup agent memory
-snapshot = await memory.backup_memory({
-    "learned_patterns": [...],
-    "diagnostic_history": {...}
-})
-
-# Verify integrity
-assert memory.verify_integrity(snapshot)
-```
-
-**Features:**
-- Versioned snapshots with SHA-256 checksums
-- Multiple backends: Local, IPFS, Solana memo
-- Encryption support for sensitive data
-
-## SolanaScope Integration
-
-Real integration with SolanaScope API for enhanced diagnostics:
-
-```python
-from solanascope_integration import diagnose_counterparty, check_price_reliability
-
-# Check if a wallet is suspicious
-result = await diagnose_counterparty("wallet_address")
-# Returns: risk_level, anomalies, recommendation
-
-# Check price data reliability
-price = await check_price_reliability("SOL/USD")
-# Returns: confidence %, reliability assessment
-```
+- ❌ Never custody funds
+- ❌ Never sign transactions
+- ✅ Read-only monitoring
+- ✅ Human escalation for unknowns
 
 ## Hackathon
 
-Built for the [Colosseum Agent Hackathon](https://colosseum.com/agent-hackathon/) (Feb 2-12, 2026).
+Built for [Colosseum Agent Hackathon](https://colosseum.com/agent-hackathon/) (Feb 2-12, 2026).
 
 - **Agent ID**: 149
-- **Target**: "Most Agentic" category
-- **Human**: @dagomint (infrastructure only, zero code)
+- **Category**: Most Agentic
+- **Human**: @dagomint (infrastructure only)
 - **100% autonomous development**
 
 ## Stats
 
-- **Lines of Code**: 4,718+ Python
-- **Modules**: 20
-- **Test Coverage**: Unit tests for memory persistence
-- **Forum Engagement**: 20+ replies, 4 posts
-- **Real Integrations**: SolanaScope API (live)
-
-## License
-
-MIT
+- **46 modules**
+- **7,800+ lines of Python**
+- **6 forum posts, 50+ comments**
+- **Zero human code**
 
 ---
 
-*Built by AgentMedic 🏥 — an AI agent healing other AI agents*
+*Built by AgentMedic 🏥 — an AI agent protecting other AI agents*

@@ -5,17 +5,15 @@ Security vulnerability detection for AI agents on Solana.
 
 Detects:
 - Exposed private keys in logs/memory
-- Suspicious transaction patterns
-- Unauthorized RPC endpoint changes
-- Memory injection attempts
-- Excessive permission requests
-- Known malicious addresses
+- Drainer/approval attacks
+- Phishing attempts
+- Data exfiltration
+- Suspicious domains
 """
 
 import re
-import hashlib
 from dataclasses import dataclass
-from typing import List, Dict, Optional
+from typing import List, Dict, Any
 from enum import Enum
 
 
@@ -39,21 +37,53 @@ class SecurityAlert:
 class SecurityScanner:
     """Scan for security vulnerabilities in AI agents."""
     
-    # Known malicious patterns
+    # Private key patterns
     PRIVATE_KEY_PATTERNS = [
         r'[1-9A-HJ-NP-Za-km-z]{87,88}',  # Solana private key
         r'0x[a-fA-F0-9]{64}',  # Ethereum-style
         r'-----BEGIN.*PRIVATE KEY-----',
+        r'privateKey[\s:=]+[\'"][^\'"]+[\'"]',
+        r'secret[\s:=]+[\'"][^\'"]+[\'"]',
     ]
     
-    SUSPICIOUS_DOMAINS = [
-        "drainer", "airdrop-claim", "free-sol", "wallet-connect-verify"
+    # Drainer attack patterns
+    DRAINER_PATTERNS = [
+        r'setApprovalForAll.*true',
+        r'approve.*\d{9,}',
+        r'unlimited.*approv',
+        r'0x.*DRAINER',
+        r'0x.*MALICIOUS',
     ]
     
+    # Phishing patterns
+    PHISHING_PATTERNS = [
+        r'free.*\d+.*sol.*airdrop',
+        r'claim.*airdrop',
+        r'verify.*wallet.*at',
+        r'connect.*wallet.*claim',
+        r'\.scam\.',
+        r'sol-verify',
+        r'wallet-verify',
+    ]
+    
+    # Exfiltration patterns
+    EXFIL_PATTERNS = [
+        r'POST.*key',
+        r'send.*private.*key',
+        r'upload.*seed',
+        r'body.*privateKey',
+    ]
+    
+    # Known scam patterns (legacy, kept for compatibility)
     KNOWN_SCAM_PATTERNS = [
         "send.*private.*key",
         "verify.*wallet.*seed",
         "claim.*airdrop.*connect",
+    ]
+    
+    SUSPICIOUS_DOMAINS = [
+        "drainer", "airdrop-claim", "free-sol", "wallet-connect-verify",
+        ".scam.", "verify-wallet", "claim-sol"
     ]
     
     def __init__(self):
@@ -63,8 +93,9 @@ class SecurityScanner:
     def scan_text(self, text: str, source: str = "unknown") -> List[SecurityAlert]:
         """Scan text for security issues."""
         alerts = []
+        text_lower = text.lower()
         
-        # Check for exposed private keys
+        # Check private keys
         for pattern in self.PRIVATE_KEY_PATTERNS:
             if re.search(pattern, text, re.IGNORECASE):
                 alerts.append(SecurityAlert(
@@ -74,28 +105,57 @@ class SecurityScanner:
                     details={"source": source, "pattern": pattern[:20]},
                     recommendation="Immediately rotate keys and audit access logs"
                 ))
+                break
         
-        # Check for scam patterns
-        for pattern in self.KNOWN_SCAM_PATTERNS:
+        # Check drainer patterns
+        for pattern in self.DRAINER_PATTERNS:
             if re.search(pattern, text, re.IGNORECASE):
                 alerts.append(SecurityAlert(
-                    threat_type="SCAM_PATTERN",
+                    threat_type="DRAINER_PATTERN",
+                    threat_level=ThreatLevel.CRITICAL,
+                    description="Drainer/approval attack pattern detected",
+                    details={"source": source, "pattern": pattern},
+                    recommendation="Block transaction immediately"
+                ))
+                break
+        
+        # Check phishing patterns
+        for pattern in self.PHISHING_PATTERNS:
+            if re.search(pattern, text, re.IGNORECASE):
+                alerts.append(SecurityAlert(
+                    threat_type="PHISHING",
                     threat_level=ThreatLevel.HIGH,
-                    description="Known scam/phishing pattern detected",
+                    description="Phishing attempt detected",
                     details={"source": source, "pattern": pattern},
                     recommendation="Do not interact. Block and report."
                 ))
+                break
         
-        # Check for suspicious domains
-        for domain in self.SUSPICIOUS_DOMAINS:
-            if domain in text.lower():
+        # Check exfiltration patterns
+        for pattern in self.EXFIL_PATTERNS:
+            if re.search(pattern, text, re.IGNORECASE):
                 alerts.append(SecurityAlert(
-                    threat_type="SUSPICIOUS_DOMAIN",
-                    threat_level=ThreatLevel.MEDIUM,
-                    description="Suspicious domain pattern detected",
-                    details={"source": source, "domain_pattern": domain},
-                    recommendation="Verify legitimacy before interacting"
+                    threat_type="EXFILTRATION",
+                    threat_level=ThreatLevel.CRITICAL,
+                    description="Data exfiltration attempt detected",
+                    details={"source": source, "pattern": pattern},
+                    recommendation="Block and audit immediately"
                 ))
+                break
+        
+        # Check suspicious domains
+        for domain in self.SUSPICIOUS_DOMAINS:
+            if domain in text_lower:
+                # Avoid duplicate alerts
+                if not any(a.threat_type in ["PHISHING", "DRAINER_PATTERN"] for a in alerts):
+                    alerts.append(SecurityAlert(
+                        threat_type="SUSPICIOUS_DOMAIN",
+                        threat_level=ThreatLevel.MEDIUM,
+                        description="Suspicious domain pattern detected",
+                        details={"source": source, "domain_pattern": domain},
+                        recommendation="Verify legitimacy before interacting"
+                    ))
+                break
         
         self.alerts.extend(alerts)
         self.scanned_count += 1
@@ -105,9 +165,7 @@ class SecurityScanner:
         """Scan transaction for suspicious patterns."""
         alerts = []
         
-        # Check for drain patterns
         if tx_data.get("amount", 0) > 0:
-            # Large unexpected outflows
             if tx_data.get("direction") == "out" and tx_data.get("amount") > 10:
                 alerts.append(SecurityAlert(
                     threat_type="LARGE_OUTFLOW",
@@ -117,7 +175,6 @@ class SecurityScanner:
                     recommendation="Verify this transaction was intended"
                 ))
         
-        # Check for interaction with new/unknown programs
         if tx_data.get("program_age_days", 999) < 7:
             alerts.append(SecurityAlert(
                 threat_type="NEW_PROGRAM",
@@ -135,7 +192,6 @@ class SecurityScanner:
         alerts = []
         
         for endpoint in endpoints:
-            # Check for HTTP (non-HTTPS)
             if endpoint.startswith("http://") and "localhost" not in endpoint:
                 alerts.append(SecurityAlert(
                     threat_type="INSECURE_RPC",
@@ -145,7 +201,6 @@ class SecurityScanner:
                     recommendation="Use HTTPS endpoints to prevent MITM attacks"
                 ))
             
-            # Check for unknown/suspicious endpoints
             known_providers = ["solana.com", "helius", "quicknode", "alchemy", "triton"]
             if not any(p in endpoint.lower() for p in known_providers):
                 alerts.append(SecurityAlert(

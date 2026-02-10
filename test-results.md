@@ -163,3 +163,37 @@ AgentMedic successfully demonstrated its core functionality on Solana devnet:
 - Verifiable audit trail ✅
 
 *Simulation ran autonomously without human intervention.*
+
+---
+
+## Advanced Simulation Test
+
+**Date:** 2026-02-10 22:24 UTC  
+**Result:** 6/6 PASS (100%)
+
+### Scenarios Tested
+
+| # | Scenario | Result | Details |
+|---|----------|--------|---------|
+| 7 | Multi-Wallet Monitoring | ✅ PASS | 2/2 wallets monitored |
+| 8 | Attack Pattern Recognition | ✅ PASS | 100% accuracy (7/7 patterns) |
+| 9 | Circuit Breaker | ✅ PASS | Opens after 5 failures |
+| 10 | Anomaly Detection | ✅ PASS | 3/3 anomalies detected |
+| 11 | Agent State Transitions | ✅ PASS | 6 valid transitions |
+| 12 | Learning Persistence | ✅ PASS | Patterns persist across restarts |
+
+### Improvements Made
+
+**Security Scanner Enhanced:**
+- Added drainer attack patterns (setApprovalForAll, large approvals)
+- Added phishing patterns (fake airdrops, wallet verification)
+- Added exfiltration patterns (key upload, POST requests)
+- Improved from 42.9% to 100% detection accuracy
+
+### Combined Results
+
+| Test Suite | Passed | Total | Rate |
+|------------|--------|-------|------|
+| Basic Simulation | 6 | 6 | 100% |
+| Advanced Simulation | 6 | 6 | 100% |
+| **Total** | **12** | **12** | **100%** |

@@ -465,3 +465,149 @@ def run_self_protection_tests():
 if __name__ == "__main__":
     run_advanced_simulation()
     run_self_protection_tests()
+
+
+def run_identity_tests():
+    """Test identity verification system."""
+    print()
+    print("=" * 60)
+    print("🔐 Identity Verification Tests")
+    print("=" * 60)
+    print()
+    
+    from identity_verifier import IdentityVerifier, AccessLevel
+    
+    results = {"passed": 0, "failed": 0, "tests": []}
+    
+    # =========================================
+    # SCENARIO 16: Access Control
+    # =========================================
+    print("🔑 SCENARIO 16: Access Control")
+    print("-" * 40)
+    
+    try:
+        iv = IdentityVerifier()
+        
+        # Unverified agent should only have PUBLIC access
+        wallet_unverified = "UnverifiedAgent11111111111111111111111111"
+        iv.register_agent(wallet_unverified)
+        
+        can_public = iv.can_access(wallet_unverified, AccessLevel.PUBLIC)
+        can_verified = iv.can_access(wallet_unverified, AccessLevel.VERIFIED)
+        can_trusted = iv.can_access(wallet_unverified, AccessLevel.TRUSTED)
+        
+        print(f"  Unverified agent:")
+        print(f"    PUBLIC access: {can_public} (expected: True)")
+        print(f"    VERIFIED access: {can_verified} (expected: False)")
+        print(f"    TRUSTED access: {can_trusted} (expected: False)")
+        
+        if can_public and not can_verified and not can_trusted:
+            results["passed"] += 1
+            results["tests"].append({"name": "Access Control", "status": "PASS"})
+            print("  Result: ✅ PASS")
+        else:
+            results["failed"] += 1
+            results["tests"].append({"name": "Access Control", "status": "FAIL"})
+            print("  Result: ❌ FAIL")
+    except Exception as e:
+        results["failed"] += 1
+        results["tests"].append({"name": "Access Control", "status": "FAIL"})
+        print(f"  Result: ❌ FAIL - {e}")
+    
+    print()
+    
+    # =========================================
+    # SCENARIO 17: Signature Verification
+    # =========================================
+    print("✍️ SCENARIO 17: Signature Verification")
+    print("-" * 40)
+    
+    try:
+        iv = IdentityVerifier()
+        
+        wallet = "VerifiedAgent2222222222222222222222222222222"
+        iv.register_agent(wallet)
+        
+        # Verify with valid signature
+        verified = iv.verify_agent(wallet, "prove ownership", "a" * 64)
+        access_after = iv.get_access_level(wallet)
+        
+        print(f"  Verification result: {verified}")
+        print(f"  Access level after: {access_after.value}")
+        
+        if verified and access_after == AccessLevel.VERIFIED:
+            results["passed"] += 1
+            results["tests"].append({"name": "Signature Verification", "status": "PASS"})
+            print("  Result: ✅ PASS")
+        else:
+            results["failed"] += 1
+            results["tests"].append({"name": "Signature Verification", "status": "FAIL"})
+            print("  Result: ❌ FAIL")
+    except Exception as e:
+        results["failed"] += 1
+        results["tests"].append({"name": "Signature Verification", "status": "FAIL"})
+        print(f"  Result: ❌ FAIL - {e}")
+    
+    print()
+    
+    # =========================================
+    # SCENARIO 18: Rate Limiting
+    # =========================================
+    print("⏱️ SCENARIO 18: Rate Limiting")
+    print("-" * 40)
+    
+    try:
+        iv = IdentityVerifier()
+        iv.rate_limit_max = 5  # Lower for testing
+        
+        wallet = "RateLimitTest333333333333333333333333333333"
+        iv.register_agent(wallet)
+        
+        # Make requests up to and beyond limit
+        allowed_count = 0
+        blocked_count = 0
+        
+        for i in range(8):
+            if iv.check_rate_limit(wallet):
+                allowed_count += 1
+            else:
+                blocked_count += 1
+        
+        print(f"  Requests allowed: {allowed_count} (expected: 5)")
+        print(f"  Requests blocked: {blocked_count} (expected: 3)")
+        
+        if allowed_count == 5 and blocked_count == 3:
+            results["passed"] += 1
+            results["tests"].append({"name": "Rate Limiting", "status": "PASS"})
+            print("  Result: ✅ PASS")
+        else:
+            results["failed"] += 1
+            results["tests"].append({"name": "Rate Limiting", "status": "FAIL"})
+            print("  Result: ❌ FAIL")
+    except Exception as e:
+        results["failed"] += 1
+        results["tests"].append({"name": "Rate Limiting", "status": "FAIL"})
+        print(f"  Result: ❌ FAIL - {e}")
+    
+    print()
+    
+    # Summary
+    print("=" * 60)
+    print("📊 IDENTITY VERIFICATION SUMMARY")
+    print("=" * 60)
+    total = results['passed'] + results['failed']
+    print(f"Passed: {results['passed']}/{total}")
+    print()
+    
+    for test in results["tests"]:
+        status = "✅" if test["status"] == "PASS" else "❌"
+        print(f"  {status} {test['name']}")
+    
+    print()
+    return results
+
+
+if __name__ == "__main__":
+    run_advanced_simulation()
+    run_self_protection_tests()
+    run_identity_tests()

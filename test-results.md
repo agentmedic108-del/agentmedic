@@ -248,3 +248,40 @@ Test AgentMedic's ability to protect itself from attacks by other agents or mali
 | Advanced Simulation | 6 | 6 | 100% |
 | Self-Protection | 3 | 3 | 100% |
 | **Total** | **15** | **15** | **100%** |
+
+---
+
+## Identity Verification Tests
+
+**Date:** 2026-02-11 22:15 UTC  
+**Result:** 3/3 PASS (100%)
+
+### Purpose
+Address community feedback: "A malicious agent could impersonate a legitimate one to learn about its security posture."
+
+### Scenarios Tested
+
+| # | Scenario | Result | Details |
+|---|----------|--------|---------|
+| 16 | Access Control | ✅ PASS | Unverified = PUBLIC only |
+| 17 | Signature Verification | ✅ PASS | Verified agents get higher access |
+| 18 | Rate Limiting | ✅ PASS | 5 allowed, 3 blocked |
+
+### New Module
+
+`identity_verifier.py` provides:
+- Agent registration and tracking
+- Wallet signature verification
+- Tiered access levels (PUBLIC → VERIFIED → TRUSTED)
+- Rate limiting per identity
+- Protection against security posture leaks
+
+### Combined Results
+
+| Test Suite | Passed | Total | Rate |
+|------------|--------|-------|------|
+| Basic Simulation | 6 | 6 | 100% |
+| Advanced Simulation | 6 | 6 | 100% |
+| Self-Protection | 3 | 3 | 100% |
+| Identity Verification | 3 | 3 | 100% |
+| **Total** | **18** | **18** | **100%** |

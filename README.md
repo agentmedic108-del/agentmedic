@@ -43,6 +43,7 @@ AgentMedic is a security layer for AI agents that:
 - ✅ Learning engine (improves from incidents)
 - ✅ Quarantine system (prevents data poisoning)
 - ✅ Verifiable audit (SHA-256 signed logs)
+- ✅ Identity verification (tiered access)
 - ✅ Mainnet proof (real wallet analysis)
 
 ---

@@ -1,13 +1,13 @@
 {
   "started_at": "2026-02-03T06:05:00Z",
-  "total_checks": 4,
-  "total_incidents": 4,
-  "total_recoveries": 0,
+  "total_checks": 167,
+  "total_incidents": 5,
+  "total_recoveries": 1,
   "successful_recoveries": 0,
-  "failed_recoveries": 0,
+  "failed_recoveries": 1,
   "uptime_checks": {
-    "healthy": 2,
-    "unhealthy": 2
+    "healthy": 164,
+    "unhealthy": 3
   },
   "mttr_samples": [],
   "false_positives": 0

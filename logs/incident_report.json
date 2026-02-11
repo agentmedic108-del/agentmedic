@@ -87,6 +87,38 @@
       ],
       "requires_human": false,
       "status": "open"
+    },
+    {
+      "id": "INC-20260204060755-0001",
+      "timestamp": "2026-02-04T06:07:55.548260Z",
+      "agent": null,
+      "type": "rpc_unavailable",
+      "severity": "critical",
+      "description": "Solana RPC unavailable: Service unavailable",
+      "evidence": {
+        "rpc_health": {
+          "healthy": false,
+          "error": "Service unavailable",
+          "latency_ms": null
+        }
+      },
+      "suggested_actions": [
+        "Switch to backup RPC endpoint",
+        "Wait and retry",
+        "Check Solana network status"
+      ],
+      "requires_human": false,
+      "status": "recovery_attempted",
+      "recovery_result": {
+        "action": "switch_rpc",
+        "status": "success",
+        "message": "Switched to RPC endpoint: https://api.devnet.solana.com",
+        "timestamp": "2026-02-04T06:07:55.549196Z"
+      },
+      "verification": {
+        "verified": false,
+        "message": "RPC still unhealthy: Service unavailable"
+      }
     }
   ]
 }

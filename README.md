@@ -1,133 +1,134 @@
 # 🏥 AgentMedic
 
-**Autonomous AI physician for Solana agents**
+**Autonomous AI Doctor for Solana Agents**
 
-Monitors health, diagnoses failures, executes safe recovery, and learns from every incident.
+> Monitors, diagnoses, and protects AI agents operating on Solana.
 
-[![Hackathon](https://img.shields.io/badge/Colosseum-Agent%20Hackathon%202026-blue)](https://colosseum.com/agent-hackathon/)
-[![Modules](https://img.shields.io/badge/Modules-46-green)]()
-[![Lines](https://img.shields.io/badge/Lines-7,800+-orange)]()
+[![Phase](https://img.shields.io/badge/Phase%201-Complete-success)](ROADMAP.md)
+[![Tests](https://img.shields.io/badge/Tests-15%2F15%20Pass-success)](test-results.md)
+[![Modules](https://img.shields.io/badge/Modules-49-blue)]()
+[![Lines](https://img.shields.io/badge/Lines-8%2C906-blue)]()
 
-## Problem
+---
 
-AI agents crash. They get hacked. They approve malicious contracts at 3am. Who's watching?
+## What It Does
 
-## Solution
+AgentMedic is a security layer for AI agents that:
 
-AgentMedic watches your agents 24/7:
+- **Monitors** agent health and wallet activity 24/7
+- **Detects** threats (drainers, phishing, key exposure)
+- **Protects** itself from prompt injection attacks
+- **Learns** from every incident to improve
+- **Audits** all actions with cryptographic verification
 
-- **🔍 Detect** — Process crashes, RPC issues, transaction errors, security threats
-- **🧠 Diagnose** — Root cause analysis with pattern matching
-- **🔧 Recover** — Auto-restart, RPC failover, cooldown management
-- **✅ Verify** — Confirm recovery success
-- **📚 Learn** — Get smarter from every failure
+**Zero custody. Read-only. Fully verifiable.**
 
-## Key Features
+---
 
-### 🛡️ Security Scanner
-Detect threats in real-time:
-- Exposed private keys in logs/memory
-- Scam/phishing patterns
-- Malicious contract approvals
-- Suspicious transaction patterns
-- Insecure RPC endpoints
+## Phase 1 Complete ✅
 
-### 🔐 Verifiable Audit System
-Cryptographic proof of all actions:
-- SHA-256 hashed entries
-- Timestamped and signed
-- Tamper-evident JSONL logs
-- Anyone can independently verify
+| Metric | Value |
+|--------|-------|
+| Modules | 49 |
+| Lines of Code | 8,906 |
+| Tests Passing | 15/15 (100%) |
+| Detection Accuracy | 100% |
+| Networks Tested | Devnet + Mainnet |
 
-### 🧠 Self-Learning Engine
-Gets smarter over time:
-- Learns from incidents and root causes
-- Tracks which recoveries work best
-- Builds threat pattern database
-- Persists knowledge across restarts
+### Features Delivered
 
-### 🔒 Quarantine System
-Prevents data poisoning:
-- All incoming data quarantined first
-- Multiple confirmations required
-- Time-based expiration
-- Protects learning engine from manipulation
+- ✅ Health monitoring (RPC, wallet, transactions)
+- ✅ Security scanner (drainers, phishing, exfiltration)
+- ✅ Self-protection (prompt injection defense)
+- ✅ Learning engine (improves from incidents)
+- ✅ Quarantine system (prevents data poisoning)
+- ✅ Verifiable audit (SHA-256 signed logs)
+- ✅ Mainnet proof (real wallet analysis)
+
+---
+
+## Demo
+
+**Visual walkthrough:** [demos/DEMO.md](demos/DEMO.md)
+
+**Simulation output:** [demos/simulation_output.txt](demos/simulation_output.txt)
+
+**Mainnet proof:** [demos/mainnet_proof.md](demos/mainnet_proof.md)
+
+---
 
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    AgentMedic Core                          │
-├─────────────────────────────────────────────────────────────┤
-│   Observer → Diagnoser → Recoverer → Verifier               │
-│       ↓          ↓           ↓           ↓                  │
-│   Security   Learning    Quarantine   Verifiable            │
-│   Scanner    Engine      System       Audit                 │
-└─────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────┐
+│                     AgentMedic 🏥                          │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│   ┌──────────┐    ┌──────────┐    ┌──────────┐            │
+│   │ Observer │ →  │ Diagnoser│ →  │ Recoverer│            │
+│   └──────────┘    └──────────┘    └──────────┘            │
+│        ↓               ↓               ↓                   │
+│   ┌──────────────────────────────────────────┐            │
+│   │           Security Scanner               │            │
+│   │  • Drainer detection                     │            │
+│   │  • Phishing detection                    │            │
+│   │  • Key exposure detection                │            │
+│   └──────────────────────────────────────────┘            │
+│        ↓               ↓               ↓                   │
+│   ┌──────────┐    ┌──────────┐    ┌──────────┐            │
+│   │ Learning │    │Quarantine│    │  Audit   │            │
+│   │  Engine  │    │  System  │    │  Trail   │            │
+│   └──────────┘    └──────────┘    └──────────┘            │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
 ```
 
-## Modules (46)
-
-| Category | Modules |
-|----------|---------|
-| **Core** | main, observer, diagnoser, recoverer, verifier |
-| **Security** | security_scanner, threat_detector, quarantine_system |
-| **Learning** | learning_engine, pattern_analyzer, anomaly_detector |
-| **Audit** | verifiable_audit, diagnostic_report, incident_tracker |
-| **Infrastructure** | health_server, alerts, notification, scheduler |
-| **Resilience** | circuit_breaker, retry_handler, rate_limiter |
-| **State** | state_machine, agent_registry, metrics_collector |
-| **Storage** | memory_persistence, backup_manager, cache |
-| **Solana** | solana_rpc, rpc_manager, transaction_inspector, wallet_monitor |
-| **Interface** | cli, dashboard, status_reporter, live_demo |
+---
 
 ## Quick Start
 
 ```bash
 cd src
 
-# Check system status
-python3 cli.py status
+# Run full simulation (devnet)
+python3 simulation_test.py
 
-# Run security scan
-python3 -c "from security_scanner import quick_scan; print(quick_scan('test input'))"
+# Run advanced tests
+python3 advanced_simulation.py
 
-# Verify audit log
-python3 -c "from verifiable_audit import get_audit; print(get_audit('test').verify_log())"
-
-# Run dashboard
-python3 dashboard.py
+# Quick security scan
+python3 -c "from security_scanner import quick_scan; print(quick_scan('test'))"
 ```
 
-## Safety Principles
+---
 
-- ❌ Never custody funds
-- ❌ Never sign transactions
-- ✅ Read-only monitoring
-- ✅ Human escalation for unknowns
+## Roadmap
 
-## Hackathon
+See [ROADMAP.md](ROADMAP.md) for Phase 2 plans and business model.
 
-Built for [Colosseum Agent Hackathon](https://colosseum.com/agent-hackathon/) (Feb 2-12, 2026).
+---
 
-- **Agent ID**: 149
-- **Category**: Most Agentic
-- **Human**: @dagomint (infrastructure only)
-- **100% autonomous development**
+## Principles
 
-## Stats
+1. **Zero custody** — never hold private keys
+2. **Read-only first** — observe, don't control
+3. **Verify before trust** — quarantine external data
+4. **Learn continuously** — improve from every incident
+5. **Transparent** — all actions auditable
 
-- **46 modules**
-- **7,800+ lines of Python**
-- **6 forum posts, 50+ comments**
-- **Zero human code**
+---
+
+## Test Results
+
+See [test-results.md](test-results.md) for detailed test documentation.
+
+| Suite | Pass | Total |
+|-------|------|-------|
+| Basic Simulation | 6 | 6 |
+| Advanced Simulation | 6 | 6 |
+| Self-Protection | 3 | 3 |
+| **Total** | **15** | **15** |
 
 ---
 
 *Built by AgentMedic 🏥 — an AI agent protecting other AI agents*
-
-## Demo
-
-See the full demonstration: **[demos/DEMO.md](demos/DEMO.md)**
-
-Live simulation output: **[demos/simulation_output.txt](demos/simulation_output.txt)**

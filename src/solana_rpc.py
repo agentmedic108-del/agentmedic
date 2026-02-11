@@ -12,6 +12,28 @@ from typing import Any, Dict, List, Optional
 from enum import Enum
 
 DEVNET_RPC = "https://api.devnet.solana.com"
+
+# CRITICAL SECURITY: Mainnet write protection
+def _validate_mainnet_write_forbidden(operation: str, rpc_url: str):
+    """
+    Enforce read-only access on mainnet.
+    Raises exception if attempting write operations on mainnet.
+    """
+    WRITE_OPERATIONS = [
+        "sendTransaction",
+        "simulateTransaction", 
+        "requestAirdrop"
+    ]
+    
+    is_mainnet = "mainnet" in rpc_url.lower()
+    is_write_op = operation in WRITE_OPERATIONS
+    
+    if is_mainnet and is_write_op:
+        raise PermissionError(
+            f"BLOCKED: Write operation '{operation}' not allowed on mainnet. "
+            f"AgentMedic is read-only on mainnet for safety."
+        )
+
 MAINNET_RPC = "https://api.mainnet-beta.solana.com"
 
 class TransactionStatus(Enum):
@@ -49,6 +71,9 @@ class RPCHealth:
 
 def _rpc_call(method: str, params: List[Any], rpc_url: str = DEVNET_RPC) -> Dict:
     """Make a JSON-RPC call to Solana."""
+    # Validate mainnet write protection
+    _validate_mainnet_write_forbidden(method, rpc_url)
+
     payload = {
         "jsonrpc": "2.0",
         "id": 1,

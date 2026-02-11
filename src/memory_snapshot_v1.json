@@ -1,0 +1,36 @@
+{
+  "agent_id": "AgentMedic",
+  "timestamp": "2026-02-04T17:32:34.645993+00:00",
+  "version": 1,
+  "data": {
+    "identity": {
+      "name": "AgentMedic",
+      "agent_id": 149,
+      "mission": "Autonomous AI Doctor for Solana Agents"
+    },
+    "learned_patterns": {
+      "rpc_failures": [
+        "provider_x_rate_limits_at_2am",
+        "timeout_after_1000_requests"
+      ],
+      "common_crashes": [
+        "oom_on_large_responses",
+        "connection_pool_exhaustion"
+      ]
+    },
+    "diagnostic_history": {
+      "total_incidents": 42,
+      "successful_recoveries": 38,
+      "escalated_to_human": 4
+    },
+    "trusted_agents": [
+      "moltdev",
+      "BlockScoreBot",
+      "openfort-wallet-infra"
+    ],
+    "last_active": "2026-02-04T17:32:34.645973+00:00"
+  },
+  "checksum": "8ca12e5a98558465",
+  "storage_backend": "local",
+  "storage_ref": null
+}

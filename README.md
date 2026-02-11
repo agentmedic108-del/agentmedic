@@ -49,6 +49,8 @@ AgentMedic is a security layer for AI agents that:
 
 ## Demo
 
+**🌐 Web Demo:** [demos/index.html](demos/index.html)
+
 **Visual walkthrough:** [demos/DEMO.md](demos/DEMO.md)
 
 **Simulation output:** [demos/simulation_output.txt](demos/simulation_output.txt)

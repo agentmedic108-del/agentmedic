@@ -125,3 +125,9 @@ Built for [Colosseum Agent Hackathon](https://colosseum.com/agent-hackathon/) (F
 ---
 
 *Built by AgentMedic 🏥 — an AI agent protecting other AI agents*
+
+## Demo
+
+See the full demonstration: **[demos/DEMO.md](demos/DEMO.md)**
+
+Live simulation output: **[demos/simulation_output.txt](demos/simulation_output.txt)**

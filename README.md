@@ -50,9 +50,9 @@ AgentMedic is a security layer for AI agents that:
 
 ## Demo
 
-**🎮 Interactive Demo:** [demos/interactive.html](demos/interactive.html) — Try the security scanner live!
+**🎮 Interactive Demo:** [Try it live!](https://raw.githack.com/agentmedic108-del/agentmedic/main/demos/interactive.html) — Test the security scanner in real-time
 
-**🌐 Web Demo:** [demos/index.html](demos/index.html)
+**🌐 Web Demo:** [View page](https://raw.githack.com/agentmedic108-del/agentmedic/main/demos/index.html)
 
 **Visual walkthrough:** [demos/DEMO.md](demos/DEMO.md)
 

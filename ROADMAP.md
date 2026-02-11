@@ -61,8 +61,9 @@
 ### Free Tier
 - 1 wallet monitoring
 - 1 agent monitoring
-- **30-day trial** (prevents abuse)
-- Basic alerts
+- **30-day full access**, then limited mode:
+  - Critical alerts only (drainers, key exposure)
+  - Weekly summary instead of real-time
 - Community support
 
 ### Pro Tier

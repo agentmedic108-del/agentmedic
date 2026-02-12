@@ -78,7 +78,7 @@ AgentMedic is an autonomous security layer that monitors, diagnoses, and protect
 **Phase 3 (Q3 2026):**
 - Agent-to-agent trust network (verified identities share threat intel)
 - MEV and sandwich attack detection
-- Cross-chain monitoring (Ethereum, Base)
+- Solana DEX-specific protections (Jupiter, Raydium, Orca)
 - SDK for framework integration (Eliza, LangChain agents)
 
 **Long-term Vision:**

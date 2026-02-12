@@ -46,7 +46,7 @@
 - [ ] Contract verification (known vs unknown)
 - [ ] Rug pull detection
 - [ ] MEV attack detection
-- [ ] Cross-chain monitoring
+- [ ] Solana DEX-specific MEV detection (Jupiter, Raydium)
 
 ### Infrastructure
 - [ ] 24/7 uptime

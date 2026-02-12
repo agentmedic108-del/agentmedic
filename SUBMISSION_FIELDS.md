@@ -30,11 +30,11 @@ AgentMedic is an autonomous security layer that monitors, diagnoses, and protect
 
 1. **AI Agent Developers** building trading bots, DeFi agents, or autonomous systems on Solana who need security monitoring without building it themselves
 
-2. **Agent Framework Teams** (like Eliza, AutoGPT integrations) who want to offer security as a feature
+2. **Agent Framework Teams** (Eliza, OpenClaw) who want to offer security as a feature
 
-3. **DAOs and Protocols** running autonomous agents that need 24/7 protection and audit trails
+3. **NFT-based Agent Platforms** where each agent has its own wallet — they need protection for every agent they mint
 
-4. **Individual Traders** using AI agents for trading who want peace of mind that their agent won't get drained
+4. **DAOs and Protocols** running autonomous treasury agents that need 24/7 protection and audit trails
 
 ## businessModel
 
